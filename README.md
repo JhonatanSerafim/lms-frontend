@@ -1,22 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LMS Frontend
 
-## Getting Started
+Este é um sistema de gerenciamento de aprendizagem (LMS) desenvolvido com Next.js.
 
-First, run the development server:
+## Tecnologias Utilizadas
 
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- ESLint
+
+## Requisitos
+
+- Node.js 18.17 ou superior
+- npm ou yarn
+
+## Como Iniciar
+
+1. Clone o repositório
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [URL_DO_REPOSITÓRIO]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências
+```bash
+npm install
+# ou
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Inicie o servidor de desenvolvimento
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+4. Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
+
+## Estrutura do Projeto
+
+- `/src/app` - Rotas e páginas da aplicação
+- `/src/components` - Componentes reutilizáveis
+- `/src/lib` - Utilitários e configurações
+- `/public` - Arquivos estáticos
+
+## Features Planejadas
+
+- [ ] Autenticação de usuários
+- [ ] Dashboard do aluno
+- [ ] Catálogo de cursos
+- [ ] Sistema de progresso
+- [ ] Área de conteúdo do curso
+- [ ] Avaliações e certificados
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
