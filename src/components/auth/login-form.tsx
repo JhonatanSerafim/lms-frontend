@@ -42,7 +42,7 @@ export function LoginForm() {
       <CardHeader>
         <div className="flex justify-center mb-4">
           <Image
-            src="/logo.svg"
+            src="/logo-white.svg"
             alt="Zouphy"
             width={200}
             height={80}
