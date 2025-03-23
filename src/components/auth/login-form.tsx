@@ -1,122 +1,123 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { login } from "@/services/auth"
 import { loginSchema } from "@/lib/validations/auth"
-import { Label } from "@/components/ui/label"
+import type { z } from "zod"
 
 type LoginForm = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-
+  const router = useRouter()
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      senha: "",
+      password: "",
     },
   })
 
-  async function onSubmit(data: LoginForm) {
-    setIsLoading(true)
+  const onSubmit = async (data: LoginForm) => {
     try {
-      // TODO: Implementar integração com API
-      console.log(data)
+      const response = await login(data.email, data.password)
+      localStorage.setItem("token", response.token)
+      router.push("/painel")
     } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
+      form.setError("root", {
+        message: "Credenciais inválidas",
+      })
     }
   }
 
   return (
-    <div className="flex flex-col items-center gap-8">
-      <Image
-        src="/logo.svg"
-        alt="Zouphy"
-        width={200}
-        height={80}
-        priority
-      />
-      <Card className="w-[496px] p-8">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardHeader className="space-y-1 px- pt-6">
-            <h1 className="text-[#F15A2B] text-3xl font-bold">Login</h1>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Ainda não possui uma conta?</span>
-              <a href="#" className="text-sm text-[#F15A2B] hover:underline font-medium">
-                Crie aqui
-              </a>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6 px-6 pt-8">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
-              <Input
-                {...form.register("email")}
-                id="email"
-                type="email"
-                placeholder="Digite seu email"
-                disabled={isLoading}
-                className="h-12 px-4"
-              />
-              {form.formState.errors.email && (
-                <p className="text-sm text-red-500">
-                  {form.formState.errors.email.message}
-                </p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="senha" className="text-sm font-medium text-gray-700">Senha</Label>
-              <div className="relative">
-                <Input
-                  {...form.register("senha")}
-                  id="senha"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Insira sua senha"
-                  disabled={isLoading}
-                  className="h-12 px-4"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  {showPassword ? "👁️" : "👁️‍🗨️"}
-                </button>
-              </div>
-              {form.formState.errors.senha && (
-                <p className="text-sm text-red-500">
-                  {form.formState.errors.senha.message}
-                </p>
-              )}
-              <div className="text-right pt-1">
-                <a href="#" className="text-sm text-gray-900 hover:underline">
-                  Esqueci minha senha
-                </a>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="px-6 pb-6 pt-8">
-            <Button
-              type="submit"
-              className="w-full bg-[#F15A2B] hover:bg-[#d14d24] h-12 text-base"
-              disabled={isLoading}
-            >
-              {isLoading ? "Entrando..." : "Entrar"}
-            </Button>
-          </CardFooter>
+    <div className="flex h-screen flex-col items-center justify-center bg-[#F15A2B]">
+      <div className="mb-14">
+        <Image
+          src="/images/logo-white.svg"
+          alt="Zouphy"
+          width={160}
+          height={32}
+          className="h-auto w-auto"
+          priority
+        />
+      </div>
+
+      <div className="w-[480px] rounded-2xl bg-white p-8">
+        <h1 className="mb-1 text-[28px] font-bold text-[#F15A2B]">Login</h1>
+        
+        <div className="mb-4 text-base">
+          Ainda não possui uma conta?{" "}
+          <Link href="/register" className="font-medium text-[#F15A2B] hover:underline">
+            Crie aqui
+          </Link>
+        </div>
+
+        <form onSubmit={form.handleSubmit(onSubmit)} className="pt-4 space-y-4">
+          <div className="space-y-1">
+            <label htmlFor="email" className="text-base font-medium text-gray-900">
+              E-mail
+            </label>
+            <input
+              {...form.register("email")}
+              type="email"
+              id="email"
+              placeholder="Digite seu e-mail"
+              className="h-[44px] w-[400px] rounded-[6px] border border-gray-200 bg-white px-4 text-base text-gray-900 placeholder:text-gray-400 focus:border-[#F15A2B] focus:outline-none focus:ring-1 focus:ring-[#F15A2B]"
+            />
+            {form.formState.errors.email && (
+              <p className="text-sm text-red-500">
+                {form.formState.errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <label htmlFor="password" className="text-base font-medium text-gray-900">
+              Senha
+            </label>
+            <input
+              {...form.register("password")}
+              type="password"
+              id="password"
+              placeholder="Insira sua senha"
+              className="h-[44px] w-[400px] rounded-[6px] border border-gray-200 bg-white px-4 text-base text-gray-900 placeholder:text-gray-400 focus:border-[#F15A2B] focus:outline-none focus:ring-1 focus:ring-[#F15A2B]"
+            />
+            {form.formState.errors.password && (
+              <p className="text-sm text-red-500">
+                {form.formState.errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex justify-end w-[400px]">
+            <Link href="/esqueci-senha" className="text-sm text-[#F15A2B] hover:underline">
+              Esqueci minha senha
+            </Link>
+          </div>
+
+          {form.formState.errors.root && (
+            <p className="text-center text-sm text-red-500">
+              {form.formState.errors.root.message}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="h-[44px] w-[400px] rounded-[6px] bg-[#F15A2B] text-base font-medium text-white transition-colors hover:bg-[#D14A1B] focus:outline-none focus:ring-2 focus:ring-[#F15A2B] focus:ring-offset-2"
+          >
+            Entrar
+          </button>
         </form>
-      </Card>
+      </div>
+
+      <div className="mt-14 text-white text-sm">
+        versão 1.0
+      </div>
     </div>
   )
 } 
