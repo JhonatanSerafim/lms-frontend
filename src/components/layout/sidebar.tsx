@@ -140,6 +140,26 @@ export function Sidebar(): React.JSX.Element {
     const isExpanded = expandedItems.includes(item.label)
     const isActive = pathname === item.href
 
+    // Se não tem subitens e tem href, renderiza como Link
+    if (!item.subItems && item.href) {
+      return (
+        <Link
+          key={item.label}
+          href={item.href}
+          className={`flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-xs font-medium ${
+            isActive
+              ? "bg-white/10"
+              : "hover:bg-white/5"
+          } ${isCollapsed ? 'justify-center px-2' : ''}`}
+          title={isCollapsed ? item.label : undefined}
+        >
+          <div className="flex items-center justify-center w-4 h-4 shrink-0">{item.icon}</div>
+          {!isCollapsed && <span className="truncate">{item.label}</span>}
+        </Link>
+      )
+    }
+
+    // Se tem subitens, renderiza como botão expansível
     return (
       <div key={item.label}>
         <button
@@ -226,7 +246,7 @@ export function Sidebar(): React.JSX.Element {
         </div>
         {!isCollapsed && (
           <div className="flex flex-col">
-            <span className="text-xs font-medium truncate">Melissa Arantes dos Santos</span>
+            <span className="text-xs font-medium truncate">Amira Serafim</span>
             <span className="text-[10px] text-white/60">ESTUDANTE</span>
           </div>
         )}
