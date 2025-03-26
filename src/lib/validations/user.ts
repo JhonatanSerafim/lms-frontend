@@ -22,5 +22,7 @@ export const newUserSchema = z.object({
 
   // Acesso
   senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
-  permissao: z.enum(["Aluno(a)", "Professor(a)", "Administrador(a)"])
+  permissao: z.enum(["Aluno(a)", "Professor(a)", "Administrador(a)"],{
+    required_error: "Escolha uma permissão",
+  }),
 }) 
