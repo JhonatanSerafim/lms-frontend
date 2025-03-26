@@ -67,7 +67,7 @@ const menuItems: NavItem[] = [
       },
       {
         label: "Comunicações",
-        href: "/gestao/comunicacoes"
+        href: "/gestao/comunicacoes",
       }
     ]
   },
@@ -154,7 +154,7 @@ export function Sidebar(): React.JSX.Element {
           title={isCollapsed ? item.label : undefined}
         >
           <div className="flex items-center justify-center w-4 h-4 shrink-0">{item.icon}</div>
-          {!isCollapsed && <span className="truncate">{item.label}</span>}
+          {!isCollapsed && <span className="truncate text-[14px]">{item.label}</span>}
         </Link>
       )
     }
@@ -204,7 +204,7 @@ export function Sidebar(): React.JSX.Element {
   }
 
   return (
-    <nav className={`fixed top-0 left-0 flex h-screen flex-col bg-[#F15A2B] text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-56'}`}>
+    <nav className={`fixed top-0 left-0 flex h-screen flex-col bg-[#F15A2B] text-white transition-all duration-300 ${isCollapsed ? 'w-[88px]' : 'w-[268px]'}`}>
       <div className="flex h-12 items-center justify-between px-4">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -235,18 +235,18 @@ export function Sidebar(): React.JSX.Element {
       </div>
 
       <div className={`flex items-center gap-2 px-4 py-2 border-b border-white/10 ${isCollapsed ? 'justify-center px-2' : ''}`}>
-        <div className="h-6 w-6 rounded-full bg-white/10 overflow-hidden flex-shrink-0">
+        <div className="h-[46px] w-[46px] rounded-full bg-white/10 overflow-hidden flex-shrink-0">
           <Image
-            src="/avatar.jpg"
+            src="/images/image.png"
             alt="Avatar do usuário"
-            width={24}
-            height={24}
+            width={46}
+            height={46}
             className="h-full w-full object-cover"
           />
         </div>
         {!isCollapsed && (
           <div className="flex flex-col">
-            <span className="text-xs font-medium truncate">Amira Serafim</span>
+            <span className="text-[14px] font-medium truncate">Amira Serafim</span>
             <span className="text-[10px] text-white/60">ESTUDANTE</span>
           </div>
         )}
@@ -255,17 +255,17 @@ export function Sidebar(): React.JSX.Element {
       <div className="flex flex-col flex-1 justify-between py-2">
         <div className="space-y-0.5">
           <div className={`px-3 py-1 ${isCollapsed ? 'px-0 text-center' : ''}`}>
-            <span className="text-[10px] font-semibold uppercase text-white/60">Menu</span>
+            <span className="text-[12px] font-semibold uppercase text-white/60">Menu</span>
           </div>
           {menuItems.slice(0, 3).map(renderMenuItem)}
 
           <div className={`px-3 py-1 mt-1 ${isCollapsed ? 'px-0 text-center' : ''}`}>
-            <span className="text-[10px] font-semibold uppercase text-white/60">Estude</span>
+            <span className="text-[12px] font-semibold uppercase text-white/60">Estude</span>
           </div>
           {menuItems.slice(3, 6).map(renderMenuItem)}
 
           <div className={`px-3 py-1 mt-1 ${isCollapsed ? 'px-0 text-center' : ''}`}>
-            <span className="text-[10px] font-semibold uppercase text-white/60">Interaja</span>
+            <span className="text-[12px] font-semibold uppercase text-white/60">Interaja</span>
           </div>
           {menuItems.slice(6, 8).map(renderMenuItem)}
         </div>
